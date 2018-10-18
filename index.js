@@ -10,23 +10,30 @@ var io = require("socket.io")(http);
 
 app.use(express.static(__dirname + '/public'))
 
+var userLists = []
+
 io.on("connection", socket => {
-  
 
-  var userName = "U_" + (socket.id).toString().substr(1,6);
-  console.log(userName);
-  console.log("a " + userName + " connected");
+  var userInfo = {}
 
-  socket.broadcast.emit('newUserConnect', userName);
+  var userId = "U_" + (socket.id).toString().substr(1,6);
+  console.log(userId);
+  console.log("a " + userId + " connected");
 
-  socket.emit('userName', userName);
+  socket.broadcast.emit('newUserConnect', userId);
+
+  socket.emit('userName', userId);
 
   socket.on("message", msg => {
     socket.broadcast.emit("message", msg);    
   });
 
-  socket.on('createNewName', (oldName, newName) => {
-    socket.broadcast.emit('createNewName', oldName, newName);
+  socket.on('statusConnected', (userName, status) => {
+    socket.broadcast.emit('statusConnected', userName, status);
+  });
+
+  socket.on('killUser', userName => {
+    socket.broadcast.emit('killUser', userName);
   });
 
   socket.on("disconnect", function() {

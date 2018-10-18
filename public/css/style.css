@@ -5,12 +5,24 @@
   background: #ccc;
   border-radius: 5px;
 }
+
+.disconnected {
+  margin: 0 auto;
+  width: 500px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  display: none;
+}
+
+
 .greeting {
   font-size: 16px;
   font-weight: bold;
+  display: block;
 }
 
-#rename {
+#userName {
   border: none;
   outline: none;
   background: none;
@@ -22,6 +34,20 @@
   margin-bottom: 10px;
 }
 
+#access {
+  float: right;
+  color: white;
+  border: none;
+  outline: none;
+  background: green;
+  padding: 3px 10px;
+  border-radius: 5px;
+}
+
+#access:disabled {
+  background: gray;
+}
+
 #messages {
   height: 400px;
   background: white;
@@ -29,7 +55,6 @@
   overflow-x: hidden;
   list-style-type: none;
   padding: 10px;
-  margin: 0;
   margin-bottom: 10px;
 }
 
@@ -39,9 +64,9 @@
   clear: both;
 }
 
-#m {
+#input {
   width: 448px;
-  border: 2px solid blue;
+  border: 2px solid gray;
   border-radius: 5px 0 0 5px;
 }
 
@@ -53,9 +78,14 @@
   color: white;
 }
 
+#send:disabled {
+  background: gray;
+  border: 2px solid gray;
+}
+
 .person-1, .person-2 {
   padding: 5px 5px;
-  /* width: 75%; */
+  max-width: 75%;
   border-radius: 5px;
   clear: both;
 }
@@ -81,6 +111,22 @@
 .person-2 span {
   color: red;
   font-weight: bold;
+}
+
+#form  {
+  margin-bottom: 10px;
+}
+
+.b-closeSocket {
+  text-align: right;
+}
+
+#closeSocket {
+  color: white;
+  border: none;
+  background: red;
+  padding: 3px 10px;
+  border-radius: 5px;
 }
 
 

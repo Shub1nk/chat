@@ -11,24 +11,30 @@
 </head>
 
 <body>
-  <section class="chat">
-    <div class="greeting">Ваше имя: <input type="text" id="rename" value=""></div>
 
-    <p class="status">Ваш статус: <input type="text" id="status" /></p>
+  <section class="disconnected">
+    <h1>Вы покинули чат!</h1>
+  </section>
+
+  <section class="chat">
+    <div class="greeting">Ваше имя: <input type="text" id="userName" value="" autofocus><button id="access" disabled="disabled">Sign in</button></div>
+
+    <!-- <p class="status">Ваш статус: <input type="text" id="status" /></p> -->
 
     <ul id="messages">
     </ul>
     <form id="form" action="">
-      <input id="m" type="text" autofocus /><button id="send">Send</button>
+      <input id="input" type="text"><button id="send" disabled="disabled">Send</button>
     </form>
+
+    <div class="b-closeSocket">
+        <button id="closeSocket">Покинуть чат</button>
+    </div>
+    
   </section>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script src="./js/client.js">
-
-
-
-  </script>
+  <script src="./js/client.js"></script>
 </body>
 
 </html>
