@@ -174,11 +174,16 @@ console.log(usersListBlock);
 
 socket.on("renderUserStatusList", usersList => {
 
-  usersListBlock.style.left = -200 + 'px';
+  usersListBlock.style.left = -235 + 'px';
 
   while (usersListBlock.firstChild) {
     usersListBlock.removeChild(usersListBlock.firstChild);
   }
+
+  var p = document.createElement(p);
+  p.innerHTML = 'Пользователей в чате: <b>' + usersList.length + '</b><hr>'
+
+  usersListBlock.appendChild(p);
 
   usersList.map(user => {
     var li = document.createElement("li");
