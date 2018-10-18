@@ -10,16 +10,24 @@ var io = require("socket.io")(http);
 
 app.use(express.static(__dirname + '/public'))
 
-var userLists = []
+var usersList = [
+  // {id: 1, name: "test-1", isWork: false},
+  // {id: 2, name: "test-2", isWork: true},
+  // {id: 3, name: "test-3", isWork: true},
+  // {id: 4, name: "test-4", isWork: false},
+]
 
 io.on("connection", socket => {
 
-  var userInfo = {}
+  // var userInfo = {}
+  if (usersList.length !== 0) {
+    io.emit('renderUserStatusList', usersList);
+  }
 
-  var userId = "U_" + (socket.id).toString().substr(1,6);
+  var userId = (socket.id).toString().substr(0,7);
   console.log(userId);
   console.log("a " + userId + " connected");
-
+  
   socket.broadcast.emit('newUserConnect', userId);
 
   socket.emit('userName', userId);
@@ -28,12 +36,55 @@ io.on("connection", socket => {
     socket.broadcast.emit("message", msg);    
   });
 
-  socket.on('statusConnected', (userName, status) => {
+  socket.on('statusConnected', (userName, status, userObj) => {
+    if (usersList.length === 0) {
+      usersList.push(userObj);
+      console.log('1 Пользователь подключился')
+    } 
+    else {
+      var count = 0;
+      usersList.forEach((user, i) => {
+        console.log(i + '-', user)
+        
+        if (user.id === userObj.id) {
+          count++
+          console.log('Есть совпадение')
+          user.isWork = userObj.isWork;
+        }
+      });
+
+      console.log('----------')
+
+      if (count === 0) {
+        usersList.push(userObj)
+      }
+      
+    }
+
     socket.broadcast.emit('statusConnected', userName, status);
+
+    io.emit('renderUserStatusList', usersList);
+    
   });
 
-  socket.on('killUser', userName => {
+  socket.on('killUser', (userName, userObj) => {
     socket.broadcast.emit('killUser', userName);
+    console.log(userObj);
+
+    if (userObj) {
+
+      var index;
+      usersList.forEach((user, i) => {
+        if(user.id === userObj.id) {
+          console.log('Есть совпадение удалить нужно' + i, user)
+          index = i;
+        }
+      });
+
+      usersList.splice(index, 1);
+      console.log(usersList)
+      io.emit('renderUserStatusList', usersList);
+    }
   });
 
   socket.on("disconnect", function() {

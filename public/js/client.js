@@ -12,6 +12,9 @@ var send = document.getElementById("send");
 var input = document.getElementById("input");
 var oldName = "";
 
+// Информация о пользователе
+var currentUserInfo = { id: null, name: null, isWork: false };
+
 var closeSocket = document.getElementById("closeSocket");
 
 closeSocket.onclick = () => {
@@ -20,7 +23,7 @@ closeSocket.onclick = () => {
     li.innerHTML =
       "<b>Вы</b> отключились от чата! Теперь для вас не доступна переписка других пользователей";
     messagesList.appendChild(li);
-    socket.emit("killUser", userName.value);
+    socket.emit("killUser", userName.value, currentUserInfo);
   } else {
     var li = document.createElement("li");
     li.innerHTML = "<b>Вот так сразу уходите!? Вы даже не попробовали!</b>";
@@ -33,7 +36,7 @@ closeSocket.onclick = () => {
     var chat = document.getElementsByClassName("chat");
     disconnected[0].style.display = "block";
     chat[0].style.display = "none";
-  }, 5000);
+  }, 2000);
 };
 
 access.addEventListener("click", () => {
@@ -50,7 +53,18 @@ access.addEventListener("click", () => {
       "</b>. Теперь вы можете отправлять сообщения";
     messagesList.appendChild(li);
 
-    socket.emit("statusConnected", userName.value, "connected");
+    // Добавляем имя пользователя в объект
+    currentUserInfo.name = userName.value;
+    currentUserInfo.isWork = true;
+
+    console.log(currentUserInfo);
+
+    socket.emit(
+      "statusConnected",
+      userName.value,
+      "connected",
+      currentUserInfo
+    );
   } else {
     access.innerText = "Sign in";
     access.style.background = "green";
@@ -60,7 +74,15 @@ access.addEventListener("click", () => {
     li.innerHTML = "Вы отключились от чата";
     messagesList.appendChild(li);
 
-    socket.emit("statusConnected", userName.value, "disconnected");
+    currentUserInfo.isWork = false;
+    console.log(currentUserInfo);
+
+    socket.emit(
+      "statusConnected",
+      userName.value,
+      "disconnected",
+      currentUserInfo
+    );
   }
 });
 
@@ -97,6 +119,9 @@ socket.on("killUser", userName => {
 });
 
 socket.on("userName", userId => {
+  currentUserInfo.id = userId;
+  console.log(currentUserInfo);
+
   var li = document.createElement("li");
   li.innerHTML =
     "Добро пожаловать! <br><br> Для Вас был сгенерирован случайный ID - <b>" +
@@ -142,4 +167,34 @@ socket.on("message", msg => {
   li.innerHTML = "<span>" + msg.user + ": </span>" + msg.textarea;
   li.classList.add("person-2");
   messagesList.appendChild(li);
+});
+
+var usersListBlock = document.getElementById("users-list");
+console.log(usersListBlock);
+
+socket.on("renderUserStatusList", usersList => {
+
+  usersListBlock.style.left = -200 + 'px';
+
+  while (usersListBlock.firstChild) {
+    usersListBlock.removeChild(usersListBlock.firstChild);
+  }
+
+  usersList.map(user => {
+    var li = document.createElement("li");
+    li.innerHTML =
+      "<b>" +
+      user.name +
+      "</b> <i>" +
+      (user.isWork ? "в работе" : "на паузе") +
+      "</i>";
+    if (!user.isWork) {
+      li.classList.add("pause");
+    }
+
+    usersListBlock.appendChild(li);
+  });
+
+  console.log("В конце рендера");
+  console.log(usersListBlock.innerHTML);
 });
