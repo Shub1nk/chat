@@ -33,17 +33,14 @@ socket.on('createNewName', (oldName, newName) => {
 })
 
 socket.on("userName", userName => {
-  // console.log('Нихуя себе! Твой ник ' + userName + '! Пиздец, да!');
   var li = document.createElement("li");
   li.innerHTML = "Добро пожаловать! <br><br> Для Вас было сгенерировано случайное имя - <b>" + userName + "</b>!<br> Его можно сменить в поле 'Ваше имя'" ;
   messagesList.appendChild(li);
-  // greeting.innerHTML = 'Ваш ID: ' + '<span>' + userName + '</span>';
   rename.value = userName;
   oldName = userName;
 });
 
 socket.on("newUserConnect", userName => {
-  console.log("Подключился новый пользователь " + userName);
   var li = document.createElement("li");
   li.innerHTML = "Подключился новый пользователь <b>" + userName + "</b>!";
   messagesList.appendChild(li);
