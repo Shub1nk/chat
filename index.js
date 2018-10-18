@@ -10,23 +10,17 @@ var io = require("socket.io")(http);
 
 app.use(express.static(__dirname + '/public'))
 
-var usersList = [
-  // {id: 1, name: "test-1", isWork: false},
-  // {id: 2, name: "test-2", isWork: true},
-  // {id: 3, name: "test-3", isWork: true},
-  // {id: 4, name: "test-4", isWork: false},
-]
+var usersList = []
 
 io.on("connection", socket => {
 
-  // var userInfo = {}
   if (usersList.length !== 0) {
     io.emit('renderUserStatusList', usersList);
   }
 
   var userId = (socket.id).toString().substr(0,7);
-  console.log(userId);
-  console.log("a " + userId + " connected");
+  // console.log(userId);
+  // console.log("a " + userId + " connected");
   
   socket.broadcast.emit('newUserConnect', userId);
 
@@ -39,21 +33,21 @@ io.on("connection", socket => {
   socket.on('statusConnected', (userName, status, userObj) => {
     if (usersList.length === 0) {
       usersList.push(userObj);
-      console.log('1 Пользователь подключился')
+      // console.log('1 Пользователь подключился')
     } 
     else {
       var count = 0;
       usersList.forEach((user, i) => {
-        console.log(i + '-', user)
+        // console.log(i + '-', user)
         
         if (user.id === userObj.id) {
           count++
-          console.log('Есть совпадение')
+          // console.log('Есть совпадение')
           user.isWork = userObj.isWork;
         }
       });
 
-      console.log('----------')
+      // console.log('----------')
 
       if (count === 0) {
         usersList.push(userObj)
@@ -69,20 +63,20 @@ io.on("connection", socket => {
 
   socket.on('killUser', (userName, userObj) => {
     socket.broadcast.emit('killUser', userName);
-    console.log(userObj);
+    // console.log(userObj);
 
     if (userObj) {
 
       var index;
       usersList.forEach((user, i) => {
         if(user.id === userObj.id) {
-          console.log('Есть совпадение удалить нужно' + i, user)
+          // console.log('Есть совпадение удалить нужно' + i, user)
           index = i;
         }
       });
 
       usersList.splice(index, 1);
-      console.log(usersList)
+      // console.log(usersList)
       io.emit('renderUserStatusList', usersList);
     }
   });

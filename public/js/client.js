@@ -57,7 +57,7 @@ access.addEventListener("click", () => {
     currentUserInfo.name = userName.value;
     currentUserInfo.isWork = true;
 
-    console.log(currentUserInfo);
+    // console.log(currentUserInfo);
 
     socket.emit(
       "statusConnected",
@@ -75,7 +75,7 @@ access.addEventListener("click", () => {
     messagesList.appendChild(li);
 
     currentUserInfo.isWork = false;
-    console.log(currentUserInfo);
+    // console.log(currentUserInfo);
 
     socket.emit(
       "statusConnected",
@@ -120,7 +120,7 @@ socket.on("killUser", userName => {
 
 socket.on("userName", userId => {
   currentUserInfo.id = userId;
-  console.log(currentUserInfo);
+  // console.log(currentUserInfo);
 
   var li = document.createElement("li");
   li.innerHTML =
@@ -170,7 +170,7 @@ socket.on("message", msg => {
 });
 
 var usersListBlock = document.getElementById("users-list");
-console.log(usersListBlock);
+// console.log(usersListBlock);
 
 socket.on("renderUserStatusList", usersList => {
 
@@ -200,6 +200,6 @@ socket.on("renderUserStatusList", usersList => {
     usersListBlock.appendChild(li);
   });
 
-  console.log("В конце рендера");
-  console.log(usersListBlock.innerHTML);
+  // console.log("В конце рендера");
+  // console.log(usersListBlock.innerHTML);
 });
