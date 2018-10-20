@@ -18,7 +18,6 @@ class Chat extends React.Component {
     };
 
     this.workStatus = this.workStatus.bind(this);
-    this.workStatusEnterPress = this.workStatusEnterPress.bind(this);
     this.leaveChat = this.leaveChat.bind(this);
     this.alertUser = this.alertUser.bind(this);
 
