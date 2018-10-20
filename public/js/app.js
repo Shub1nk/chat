@@ -11,13 +11,14 @@ class Chat extends React.Component {
       showChat: true,
       currentMessage: "",
       messages: [],
-      userId: '',
+      userId: "",
       userName: "",
       // currentUserInfo: { id: null, name: null, isWork: false },
       usersList: []
     };
 
     this.workStatus = this.workStatus.bind(this);
+    this.workStatusEnterPress = this.workStatusEnterPress.bind(this);
     this.leaveChat = this.leaveChat.bind(this);
     this.alertUser = this.alertUser.bind(this);
 
@@ -29,8 +30,7 @@ class Chat extends React.Component {
     // Информация о пользователе
 
     socket.on("userName", userId => {
-
-      this.setState({userId : userId})
+      this.setState({ userId: userId });
       // this.state.currentUserInfo.id = userId;
 
       // системное событие
@@ -84,10 +84,8 @@ class Chat extends React.Component {
       this.setState({ messages: [...this.state.messages, systemEvent] });
     });
 
-
     //---------------------
     socket.on("renderUserStatusList", usersList => {
-
       // let usersInfo = []
 
       usersList.map(user => {
@@ -102,14 +100,21 @@ class Chat extends React.Component {
         // if (!user.isWork) {
         //   li.classList.add("pause");
         // }
-
-        
-    
       });
 
-      this.setState({usersList: usersList})
+      this.setState({ usersList: usersList });
     });
   }
+
+  // workStatusEnterPress(event) {
+  //   console.log(event);
+  //   // if (event.keyCode === 13) {
+  //   //   this.workStatus();
+  //   // }
+  //   if (event.keyCode == 13) {
+  //     alert("Adding....");
+  //   }
+  // }
 
   // Включаемся в работу/Ставим на паузу
   workStatus() {
@@ -120,7 +125,7 @@ class Chat extends React.Component {
     let currentUserInfo = {
       id: this.state.userId,
       name: this.state.userName
-    }
+    };
 
     // Здесь состояние не успевает еще переписаться, поэтому от обратного пока идет ситуация
     if (!this.state.isWork) {
@@ -192,12 +197,11 @@ class Chat extends React.Component {
 
   // Покидаем чат
   leaveChat() {
-    
     let currentUserInfo = {
       id: this.state.userId,
       name: this.state.userName,
       isWork: this.state.isWork
-    }
+    };
 
     if (this.state.userName.length) {
       let systemEvent =
@@ -231,6 +235,7 @@ class Chat extends React.Component {
                 value={this.state.userName}
                 autoFocus
                 onChange={this.alertUser} // TODO: Переименовать  метод
+                // onKeyPress={this.workStatusEnterPress}
               />
               <button
                 id="access"
@@ -242,10 +247,22 @@ class Chat extends React.Component {
               </button>
             </div>
 
-            <ul id="users-list" style={{left: this.state.usersList.length > 0 ? '-235px' : '0px'}}>
-              <p>Пользователей в чате: <b>{this.state.usersList.length}</b></p>
+            <ul
+              id="users-list"
+              style={{
+                left: this.state.usersList.length > 0 ? "-235px" : "0px"
+              }}
+            >
+              <p>
+                Пользователей в чате: <b>{this.state.usersList.length}</b>
+              </p>
               {this.state.usersList.map(user => {
-                return <li dangerouslySetInnerHTML={{ __html: user.html }} className={user.isWork ? 'pause' : ''}/>;
+                return (
+                  <li
+                    dangerouslySetInnerHTML={{ __html: user.html }}
+                    className={user.isWork ? "pause" : ""}
+                  />
+                );
               })}
             </ul>
 
