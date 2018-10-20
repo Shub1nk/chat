@@ -17,6 +17,7 @@ var currentUserInfo = { id: null, name: null, isWork: false };
 
 var closeSocket = document.getElementById("closeSocket");
 
+// ++++++++++++++++++++++++++++++++++++++++++
 closeSocket.onclick = () => {
   if (userName.value.length) {
     var li = document.createElement("li");
@@ -38,7 +39,9 @@ closeSocket.onclick = () => {
     chat[0].style.display = "none";
   }, 2000);
 };
+// ----------------------------------------------------------
 
+// +++++++++++++++++++++++++++++++++++++++++++
 access.addEventListener("click", () => {
   // Навешиваем событие для получения доступа/выхода из чата
   if (access.innerText === "Sign in") {
@@ -94,6 +97,7 @@ userName.addEventListener("input", () => {
   }
 });
 
+// +++++++++++++++++++++++++++++++++++
 socket.on("statusConnected", (userName, status) => {
   if (status === "connected") {
     var li = document.createElement("li");
@@ -108,7 +112,9 @@ socket.on("statusConnected", (userName, status) => {
     messagesList.appendChild(li);
   }
 });
+// ------------------------------------------
 
+// ++++++++++++++++++++++++++++++++++++++++
 socket.on("killUser", userName => {
   var li = document.createElement("li");
   li.innerHTML =
@@ -117,10 +123,11 @@ socket.on("killUser", userName => {
     " </b> закрыл чат и теперь не сможет уже надлюдать за вашим общением";
   messagesList.appendChild(li);
 });
+// -----------------------------------------
 
+// +++++++++++++++++++++++++++++++
 socket.on("userName", userId => {
   currentUserInfo.id = userId;
-  // console.log(currentUserInfo);
 
   var li = document.createElement("li");
   li.innerHTML =
@@ -131,17 +138,20 @@ socket.on("userName", userId => {
   // userName.value = userId;
   oldName = userId;
 });
+// ------------------------------------
 
+// ++++++++++++++++++++++++
 socket.on("newUserConnect", userId => {
   var li = document.createElement("li");
   li.innerHTML = "Подключился новый пользователь с ID <b>" + userId + "</b>!";
   messagesList.appendChild(li);
 });
-
+// -----------------------------------
 var form = document.getElementById("form");
 
 var message = {};
 
+// ++++++++++++++++++++++++++++++++++++
 form.addEventListener("submit", e => {
   e.preventDefault();
 
@@ -161,6 +171,7 @@ form.addEventListener("submit", e => {
     window.scrollTo(0, messagesList);
   }
 });
+// -------------------------------------
 
 socket.on("message", msg => {
   var li = document.createElement("li");

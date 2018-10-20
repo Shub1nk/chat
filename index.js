@@ -24,7 +24,7 @@ io.on("connection", socket => {
   
   socket.broadcast.emit('newUserConnect', userId);
 
-  socket.emit('userName', userId);
+  socket.emit('userName', userId); 
 
   socket.on("message", msg => {
     socket.broadcast.emit("message", msg);    
@@ -66,7 +66,7 @@ io.on("connection", socket => {
     // console.log(userObj);
 
     if (userObj) {
-
+// 
       var index;
       usersList.forEach((user, i) => {
         if(user.id === userObj.id) {
@@ -74,7 +74,7 @@ io.on("connection", socket => {
           index = i;
         }
       });
-
+// 
       usersList.splice(index, 1);
       // console.log(usersList)
       io.emit('renderUserStatusList', usersList);
