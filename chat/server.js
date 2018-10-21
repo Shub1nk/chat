@@ -1,57 +1,44 @@
-var express = require("express")
-var app = express();
-var http = require("http").Server(app);
-var io = require("socket.io")(http);
+const io = require('socket.io')();
 
-// app.get("/", function(req, res) {
-//   // res.send('<h1>Hello world</h1>');
-//   res.sendFile(__dirname + "/index.html");
-// });
+const usersList = [];
 
-app.use(express.static(__dirname + '/public'))
+io.on('connection', (socket) => {
+  // тут можно генерировать события для клиента
+  // console.log(socket);
+  console.log(usersList);
 
-var usersList = []
-
-io.on("connection", socket => {
-
-  if (usersList.length !== 0) {
+  if(usersList !== 0) {
     io.emit('renderUserStatusList', usersList);
   }
 
   var userId = (socket.id).toString().substr(0,7);
-  // console.log(userId);
-  // console.log("a " + userId + " connected");
-  
-  socket.broadcast.emit('newUserConnect', userId);
+  console.log(`${userId} connected`);
+
+  socket.broadcast.emit('newUserConnect', userId)
   socket.emit('userName', userId); 
 
   socket.on("message", msg => {
-    socket.broadcast.emit("message", msg);    
+    // socket.broadcast.emit("message", msg);    
+    socket.emit("message", msg);    
   });
 
   socket.on('statusConnected', (userName, status, userObj) => {
     if (usersList.length === 0) {
       usersList.push(userObj);
-      // console.log('1 Пользователь подключился')
     } 
     else {
       var count = 0;
       usersList.forEach((user, i) => {
-        // console.log(i + '-', user)
         
         if (user.id === userObj.id) {
           count++
-          // console.log('Есть совпадение')
           user.isWork = userObj.isWork;
         }
       });
 
-      // console.log('----------')
-
       if (count === 0) {
         usersList.push(userObj)
       }
-      
     }
 
     socket.broadcast.emit('statusConnected', userName, status);
@@ -62,20 +49,17 @@ io.on("connection", socket => {
 
   socket.on('killUser', (userName, userObj) => {
     socket.broadcast.emit('killUser', userName);
-    // console.log(userObj);
 
     if (userObj) {
-// 
+ 
       var index;
       usersList.forEach((user, i) => {
         if(user.id === userObj.id) {
-          // console.log('Есть совпадение удалить нужно' + i, user)
           index = i;
         }
       });
-// 
+ 
       usersList.splice(index, 1);
-      // console.log(usersList)
       io.emit('renderUserStatusList', usersList);
     }
   });
@@ -85,8 +69,6 @@ io.on("connection", socket => {
   });
 });
 
-http.listen(3000, function() {
-  console.log("listening on *:3000");
-});
-
-// export {io}
+const port = 8000;
+io.listen(port);
+console.log('listening on port ', port);

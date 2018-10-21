@@ -8,7 +8,7 @@ var io = require("socket.io")(http);
 //   res.sendFile(__dirname + "/index.html");
 // });
 
-app.use(express.static(__dirname + '/public'))
+// app.use(express.static(__dirname + '/public'))
 
 var usersList = []
 
@@ -23,6 +23,7 @@ io.on("connection", socket => {
   // console.log("a " + userId + " connected");
   
   socket.broadcast.emit('newUserConnect', userId);
+
   socket.emit('userName', userId); 
 
   socket.on("message", msg => {
