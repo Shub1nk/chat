@@ -32,10 +32,13 @@ class SendMessage extends Component {
   setTextMessage = event => {
     event.preventDefault();
 
+    // чистый объект сообщения
     let messageObj = {
       id: this.props.idMessage + 1,
       author: this.props.currentUser,
-      content: this.state.value
+      content: 
+      "<div class='person-1'><span>Вы: </span>" + this.state.value + "</div>",
+      text: this.state.value
     };
 
     this.props.addMessage(messageObj);
@@ -44,7 +47,6 @@ class SendMessage extends Component {
   };
 
   getMessage = event => {
-    console.log(this.state.value);
     this.setState({ value: event.target.value });
   };
 

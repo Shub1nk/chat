@@ -2,8 +2,6 @@ import React from "react";
 
 function Greeting(props) {
 
-  console.log('Greeting ', props);
-
   function getUserName(event) {
     let userName = event.target.value;
     props.setUserName(userName);

@@ -18,8 +18,7 @@ io.on('connection', (socket) => {
   socket.emit('userName', userId); 
 
   socket.on("message", msg => {
-    // socket.broadcast.emit("message", msg);    
-    socket.emit("message", msg);    
+    socket.broadcast.emit("message", msg);    
   });
 
   socket.on('statusConnected', (userName, status, userObj) => {

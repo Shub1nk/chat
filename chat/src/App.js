@@ -41,7 +41,7 @@ class Chat extends Component {
 
     // Приветствуем пользователя при инициализации чата
     socket.on("userName", userId => {
-      this.setState({ currentUserInfo: { id: userId } });
+      this.setState({ userId: userId });
 
       let messageObj = {
         id: this.state.messages.length + 1,
@@ -94,17 +94,23 @@ class Chat extends Component {
     // Вывод сообщений от пользователей
     socket.on("message", msg => {
 
-      // let messageObj = {
-      //   id: this.state.messages.length + 1,
-      //   content:  "<div class='person-2'><span>" +
-      //   msg.author +
-      //   ": </span>" +
-      //   msg.content +
-      //   "</div>",
-      //   author: msg.author
-      // };
-        
-      this.setState({ messages: [...this.state.messages, msg] });
+      if (msg.author !== this.state.userName) {
+      }
+
+      
+      let messageObj = {
+        id: this.state.messages.length + 1,
+        content:  "<div class='person-2'><span>" +
+        msg.author +
+        ": </span>" +
+        msg.text +
+        "</div>",
+        author: msg.author,
+        text: msg.text
+      };
+      
+      console.log('!!!!!!!!!!!!!!!!!!!!!',messageObj)
+      this.setState({ messages: [...this.state.messages, messageObj] });
       } 
 
     );
