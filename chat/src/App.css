@@ -90,7 +90,7 @@
 #messages {
   height: 400px;
   background: white;
-  overflow-y: auto;
+  overflow-y: scroll;
   overflow-x: hidden;
   list-style-type: none;
   padding: 10px;

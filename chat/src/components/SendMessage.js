@@ -43,6 +43,8 @@ class SendMessage extends Component {
 
     this.props.addMessage(messageObj);
 
+    this.setState({value: ''});
+
     // socket.emit("message", messageObj);
   };
 

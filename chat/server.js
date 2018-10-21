@@ -5,7 +5,7 @@ const usersList = [];
 io.on('connection', (socket) => {
   // тут можно генерировать события для клиента
   // console.log(socket);
-  console.log(usersList);
+  // console.log(usersList);
 
   if(usersList !== 0) {
     io.emit('renderUserStatusList', usersList);
@@ -64,7 +64,21 @@ io.on('connection', (socket) => {
   });
 
   socket.on("disconnect", function() {
+    console.log("user disconnected", userId);
     console.log("user disconnected");
+    console.log("users " + usersList.length);
+
+    var index;
+      usersList.forEach((user, i) => {
+        console.log(user.id + '=' + userId);
+        if(user.id === userId) {
+          index = i;
+        }
+      });
+ 
+      usersList.splice(index, 1);
+      io.emit('renderUserStatusList', usersList);
+
   });
 });
 

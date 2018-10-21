@@ -13,6 +13,8 @@ const socket = openSocket("http://localhost:8000");
 // const socket = io();
 // console.log(socket);
 
+
+
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -239,5 +241,7 @@ class Chat extends Component {
     );
   }
 }
+
+
 
 export default Chat;
