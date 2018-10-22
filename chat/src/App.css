@@ -90,11 +90,11 @@
 #messages {
   height: 400px;
   background: white;
-  overflow-y: scroll;
-  overflow-x: hidden;
   list-style-type: none;
   padding: 10px;
   margin-bottom: 10px;
+  overflow-y: scroll;
+  
 }
 
 #messages li {

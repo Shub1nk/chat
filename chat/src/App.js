@@ -205,7 +205,7 @@ class Chat extends Component {
     return (
       <div>
         {/* <h1 class="title"></h1> */}
-        <h3 class="title">Chat: Node.js + React.js + Socket.io</h3>
+        <h3 className="title">Chat: Node.js + React.js + Socket.io</h3>
         {this.state.showChat ? (
           <section className="chat">
             <Greeting
