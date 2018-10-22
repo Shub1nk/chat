@@ -12,13 +12,12 @@
     "socket.io-client": "^2.1.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "react": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "server": "node server",
-    "common": "npm run server | npm run server",
-    "common1": "concurrently --kill-others \"npm run server\" \"npm run start\""
+    "start": "concurrently --kill-others \"npm run server\" \"npm run react\""
   },
   "eslintConfig": {
     "extends": "react-app"
