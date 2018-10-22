@@ -1,17 +1,15 @@
 import React from "react";
-// import { css } from "glamor";
-// import ScrollToBottom from "react-scroll-to-bottom";
+import { css } from "glamor";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 // const ROOT_CSS = css({
-//   height: 450,
+//   height: 600,
 //   width: 500
 // });
 
-// window.scrollTo(0,document.getElementById("messages").scrollHeight);
-
 function MessagesList(props) {
   return (
-    // <ScrollToBottom className={ROOT_CSS} mode='bottom'>
+    // <ScrollToBottom className={ROOT_CSS}>
       <ul id="messages">
         {props.messages.map(message => {
           return (

@@ -13,8 +13,6 @@ const socket = openSocket("http://localhost:8000");
 // const socket = io();
 // console.log(socket);
 
-
-
 class Chat extends Component {
   constructor(props) {
     super(props);
@@ -95,27 +93,23 @@ class Chat extends Component {
 
     // Вывод сообщений от пользователей
     socket.on("message", msg => {
-
       if (msg.author !== this.state.userName) {
       }
 
-      
       let messageObj = {
         id: this.state.messages.length + 1,
-        content:  "<div class='person-2'><span>" +
-        msg.author +
-        ": </span>" +
-        msg.text +
-        "</div>",
+        content:
+          "<div class='person-2'><span>" +
+          msg.author +
+          ": </span>" +
+          msg.text +
+          "</div>",
         author: msg.author,
         text: msg.text
       };
-      
-      console.log('!!!!!!!!!!!!!!!!!!!!!',messageObj)
-      this.setState({ messages: [...this.state.messages, messageObj] });
-      } 
 
-    );
+      this.setState({ messages: [...this.state.messages, messageObj] });
+    });
 
     // Оповещаем о выходе пользователя из чата
     socket.on("killUser", userName => {
@@ -145,7 +139,7 @@ class Chat extends Component {
       author: "system"
     };
 
-    // Здесь состояние не успевает еще переписаться из-за ассинхронности, поэтому от обратного пока идет ситуация
+    // Здесь состояние не успевает еще переписаться из-за ассинхронности, поэтому от обратного пока пока иду. Нужно почитать как этот вопрос решить
     if (!this.state.isWork) {
       messageObj.content =
         "<div class='system-event'>Ваше имя в чате <b>" +
@@ -210,6 +204,8 @@ class Chat extends Component {
   render() {
     return (
       <div>
+        {/* <h1 class="title"></h1> */}
+        <h3 class="title">Chat: Node.js + React.js + Socket.io</h3>
         {this.state.showChat ? (
           <section className="chat">
             <Greeting
@@ -241,7 +237,5 @@ class Chat extends Component {
     );
   }
 }
-
-
 
 export default Chat;
