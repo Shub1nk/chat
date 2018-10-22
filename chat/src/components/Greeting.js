@@ -15,7 +15,7 @@ function Greeting(props) {
         id="userName"
         value={props.userName}
         autoFocus
-        onChange={getUserName} // TODO: Переименовать  метод
+        onChange={getUserName}
       />
       <button
         id="access"
